@@ -1,10 +1,10 @@
 # Bot-whatsapp
 
 ### Autor
-[Misael Gómez Cuautle]((https://www.linkedin.com/in/misael-g%C3%B3mez-cuautle-5976491b9/))
+[Misael Gómez Cuautle]((https://www.linkedin.com/in/misael-g%C3%B3mez-cuautle-5976491b9/)
 
 ### Links de inicio
-[Meta for Developers]((https://developers.meta.com/))
+[Meta for Developers](https://developers.meta.com/)
 [WhrasApp Información](https://business.whatsapp.com/products/platform-pricing)
 [Configuración de webhooks](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/set-up-webhooks)
 [Server.js](https://glitch.com/edit/?fbclid=IwZXh0bgNhZW0CMTEAAR2BxvBgpe7K25b7zB4aB_Zk_tGAwzL7EatjBUAvZEy-dMyvr9W4cCVoP9M_aem_2sy_9WBLBVrke5oA-U4fNA#!/whatsapp-cloud-api-echo-bot)
@@ -27,7 +27,7 @@ Este proyecto es una implementación de un webhook que interactúa con la **API 
 
 ## Requisitos Previos
 
-1. Una cuenta activa en **Meta for Developers** con acceso a la API de WhatsApp Cloud.
+1. Una cuenta activa en **Meta for Developers** con acceso a la API de WhatsApp Cloud. [Meta for Developers](https://developers.meta.com/)
 2. Un servidor con **Node.js** y **npm** instalado.
 3. Una herramienta como **ngrok** o un dominio con soporte HTTPS para exponer tu webhook públicamente.
 
