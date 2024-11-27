@@ -17,6 +17,7 @@ const { WEBHOOK_VERIFY_TOKEN, API_TOKEN, BUSINESS_PHONE, API_VERSION, PORT } = p
 const cleanPhoneNumber = (number) => {
   return number.startsWith('521') ? number.replace("521", "52") : number;
 };
+
 app.post("/webhook", async (req, res) => {
   // log incoming messages
   console.log("Incoming webhook message:", JSON.stringify(req.body, null, 2));
