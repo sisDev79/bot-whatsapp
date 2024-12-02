@@ -28,7 +28,8 @@ class MessageHandler {
 
   async sendWelcomeMessage(to, messageId, senderInfo) {
     const name = this.getSenderName(senderInfo);
-    const welcomeMessage = `Hola, ${name} Bienvenido al chat, ¿En qué puedo apoyarte?`;
+    const firstName = name.split(' ')[0];
+    const welcomeMessage = `Hola, ${firstName} Bienvenido al chat, ¿En qué puedo apoyarte?`;
     await whatsappService.sendMessage(to, welcomeMessage, messageId);
   }
 }
