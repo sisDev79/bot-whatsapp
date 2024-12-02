@@ -1,12 +1,12 @@
 import whatsappService from './whatsappService.js';
 class MessageHandler {
-  async handleIncomingMessage(message) {
+  async handleIncomingMessage(message, senderInfo) {
     if (message?.type === 'text') {
       const incomingMessage = message.text.body.toLowerCase().trim();
       const fromNumber = message.from.slice(0, 2) + message.from.slice(3);
 
       if (this.isGretting(incomingMessage)) {
-        await this.sendWelcomeMessage(fromNumber, message.id);
+        await this.sendWelcomeMessage(fromNumber, message.id, senderInfo);
       }else{
         const response = `Echo: ${message.text.body}`;
         await whatsappService.sendMessage(fromNumber, response, message.id);
@@ -21,8 +21,14 @@ class MessageHandler {
     return greetings.includes(message);
   }
 
-  async sendWelcomeMessage(to, messageId) {
-    const welcomeMessage = `Hola, Bienvenido al chat, cual es tu duda?`;
+  getSenderName(senderInfo) {
+    console.log(senderInfo);
+    return senderInfo.profile?.name || senderInfo.wa_id || "";
+  }
+
+  async sendWelcomeMessage(to, messageId, senderInfo) {
+    const name = this.getSenderName(senderInfo);
+    const welcomeMessage = `Hola, ${name} Bienvenido al chat, ¿En qué puedo apoyarte?`;
     await whatsappService.sendMessage(to, welcomeMessage, messageId);
   }
 }
