@@ -7,6 +7,7 @@ class MessageHandler {
 
       if (this.isGretting(incomingMessage)) {
         await this.sendWelcomeMessage(fromNumber, message.id, senderInfo);
+        await this.sendWelcomeMenu(fromNumber);
       }else{
         const response = `Echo: ${message.text.body}`;
         await whatsappService.sendMessage(fromNumber, response, message.id);
@@ -31,6 +32,23 @@ class MessageHandler {
     const firstName = name.split(' ')[0];
     const welcomeMessage = `Hola, ${firstName} Bienvenido al chat, ¿En qué puedo apoyarte?`;
     await whatsappService.sendMessage(to, welcomeMessage, messageId);
+  }
+
+  async sendWelcomeMenu(to) {
+    const menuMessage = "Elige una Opción"
+    const buttons = [
+      {
+        type: 'reply', reply:{ id: 'option_1', title: 'Agendar' }
+      },
+      {
+        type: 'reply', reply:{ id: 'option_2', title: 'Consultar' }
+      },
+      {
+        type: 'reply', reply:{ id: 'option_3', title: 'Ubicación' }
+      }
+    ];
+
+    await whatsappService.sendInteractiveButtons(to, menuMessage, buttons);
   }
 }
 export default new MessageHandler();
