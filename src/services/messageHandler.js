@@ -1,4 +1,4 @@
-import { response } from 'express';
+//import { response } from 'express';
 import whatsappService from './whatsappService.js';
 class MessageHandler {
 
@@ -16,9 +16,12 @@ class MessageHandler {
         await this.sendWelcomeMenu(fromNumber);
       }else if(incomingMessage === 'media'){
         await this.sendMedia(fromNumber);
+      }else if(this.appointmentState[fromNumber]){
+        await this.handaleAppointmentFlow(fromNumber, incomingMessage)
       }else {
-        const response = `Echo: ${message.text.body}`;
-        await whatsappService.sendMessage(fromNumber, response, message.id);
+        //const response = `Echo: ${message.text.body}`;
+        //await whatsappService.sendMessage(fromNumber, response, message.id);
+        await this.handleMenuOption(fromNumber, incomingMessage)
       }
 
       await whatsappService.markAsRead(message.id);
@@ -30,7 +33,7 @@ class MessageHandler {
   }
 
   isGretting(message) {
-    const greetings = ['hola', 'hello', 'saludos', 'hi', "buenos días", "buenas tardes"];
+    const greetings = ['hola', 'hello', 'saludos', 'hi', "buenos días", "buenas tardes", "hola, quiero más información", "test" ];
     return greetings.includes(message);
   }
 
@@ -42,7 +45,7 @@ class MessageHandler {
   async sendWelcomeMessage(to, messageId, senderInfo) {
     const name = this.getSenderName(senderInfo);
     const firstName = name.split(' ')[0];
-    const welcomeMessage = `Hola, ${firstName} Bienvenido al chat, ¿En qué puedo apoyarte?`;
+    const welcomeMessage = `Hola, ${firstName} Bienvenido al chat de CRS Seguridad Privada, ¿En qué puedo apoyarte?`;
     await whatsappService.sendMessage(to, welcomeMessage, messageId);
   }
 
@@ -124,7 +127,8 @@ class MessageHandler {
         break;
       case 'reason':
         state.reason = message;
-        response = this.completeAppointment(to);
+        //response = this.completeAppointment(to);
+        response = 'Gracias por agendar tu cita.';
         break;
     };
     await whatsappService.sendMessage(to, response);
