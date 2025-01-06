@@ -125,4 +125,4 @@ Este proyecto es una implementación de un webhook que interactúa con la **API 
 ¡Contribuciones son bienvenidas! Si tienes ideas para mejorar este proyecto, siéntete libre de crear un **pull request** o abrir un **issue**.
 
 ## Más dellalles
-[Notion](https://github.com/remy/nodemon)
+[Notion]([https://github.com/remy/nodemon](https://fate-snowman-aed.notion.site/Bot-WhatsApp-17236f6b19d1806fa938cc9db1efd251))
