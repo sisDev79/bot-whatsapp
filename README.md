@@ -1,7 +1,7 @@
 # Bot-whatsapp
 
 ### Autor
-[Misael Gómez Cuautle]((https://www.linkedin.com/in/misael-g%C3%B3mez-cuautle-5976491b9/)
+[Misael Gómez Cuautle](https://www.linkedin.com/in/misael-g%C3%B3mez-cuautle-5976491b9/)
 
 ### Links de inicio
 [Meta for Developers](https://developers.meta.com/)
@@ -125,4 +125,4 @@ Este proyecto es una implementación de un webhook que interactúa con la **API 
 ¡Contribuciones son bienvenidas! Si tienes ideas para mejorar este proyecto, siéntete libre de crear un **pull request** o abrir un **issue**.
 
 ## Más dellalles
-[Notion]([nodemon](https://github.com/remy/nodemon))
+[Notion](https://github.com/remy/nodemon)
