@@ -1,5 +1,6 @@
 //import { response } from 'express';
 import whatsappService from './whatsappService.js';
+import pool from '../config/db.js'
 class MessageHandler {
 
   constructor(){
@@ -105,19 +106,34 @@ class MessageHandler {
     await whatsappService.sendMediaMessage(to, type, mediaUrl, caption);
   }
 
-  completeAppointment(to){
+  async completeAppointment(to) {
     const appointment = this.appointmentState[to];
     delete this.appointmentState[to];
 
     const userData = [
-      to,
-      appointment.name,
-      appointment.petName,
-      appointment.petType,
-      appointment.reason,
-      new Date().toISOString()
-    ]
-    console.log(userData);
+        to,
+        appointment.name,
+        appointment.petName,
+        appointment.petType,
+        appointment.reason,
+        new Date().toISOString()
+    ];
+
+    // Insertar en la base de datos
+    try {
+        const sql = `
+            INSERT INTO appointments 
+            (whatsapp_number, owner_name, pet_name, pet_type, reason, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        await pool.query(sql, userData);
+
+        console.log('Datos insertados correctamente en la base de datos');
+    } catch (error) {
+        console.error('Error al insertar los datos:', error);
+        throw new Error("Error al guardar la cita en la base de datos.");
+    }
+
     return `Gracias por agendar tu cita.
     Resumen de tu cita:
     Nombre: ${appointment.name}
@@ -125,7 +141,7 @@ class MessageHandler {
     Tipo de mascota: ${appointment.petType}
     Motivo: ${appointment.reason}
     
-    Nos pondremos en contacto contigo pronto para confirmar la fecha y hora de tu cita`
+    Nos pondremos en contacto contigo pronto para confirmar la fecha y hora de tu cita.`;
   }
 
   async handaleAppointmentFlow(to, message){
@@ -150,11 +166,19 @@ class MessageHandler {
         break;
       case 'reason':
         state.reason = message;
-        response = this.completeAppointment(to);
+        response = await this.completeAppointment(to);
         //response = 'Gracias por agendar tu cita.';
         break;
+      default:
+        response = "Ha ocurrido un error, intenta nuevamente.";
+        break;
     };
-    await whatsappService.sendMessage(to, response);
+    //await whatsappService.sendMessage(to, response);
+    if (response) {
+      await whatsappService.sendMessage(to, response);
+  } else {
+      console.error("El mensaje de respuesta está vacío.");
+  }
   }
 }
 export default new MessageHandler();
