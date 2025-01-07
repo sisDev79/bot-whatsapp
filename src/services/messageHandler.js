@@ -32,7 +32,8 @@ class MessageHandler {
 
       await whatsappService.markAsRead(message.id);
     } else if(message?.type === 'interactive'){
-      const option = message?.interactive?.button_reply?.title.toLowerCase().trim();
+      //const option = message?.interactive?.button_reply?.title.toLowerCase().trim();
+      const option = message?.interactive?.button_reply?.id;
       await this.handleMenuOption(fromNumber, option);
       await whatsappService.markAsRead(message.id);
     }
@@ -73,19 +74,21 @@ class MessageHandler {
   }
   async handleMenuOption(to, option) {
     let response;
+    console.log(option)
     switch (option.normalize("NFD").replace(/[\u0300-\u036f]/g, "")) {
-      case 'agendar':
+      case 'option_1':
         this.appointmentState[to] = {step: 'name'}
         response = "Por favor ingresa tu nombre";
         break;
-      case 'consultar':
+      case 'option_2':
         this.assistandState[to] = {step: 'question'}
         response = "Realiza tu consulta";
         break;
-      case 'ubicacion':
-        response = "Te hemos enviado un mensaje con la ubicación de tu negocio.";
+      case 'option_3':
+        response = "Te esperamos en nuestra sucursal";
+        await this.sendLocation(to);
         break;
-      case 'emergencia':
+      case 'option_6':
         response = "te invitamos a llamar a nuestra línea de atención";
         await this.sendContact(to);
         break;
@@ -259,6 +262,15 @@ class MessageHandler {
     };
 
     await whatsappService.sendContactMessage(to, contact);
+  }
+
+  async sendLocation(to){
+    const latitude = 6.2071694;
+    const longitude = -75.574607;
+    const name = 'Medellín';
+    const address = 'Cra. 43A #5A -113, El Poblado';
+
+    await whatsappService.sendLocationMessage(to, latitude, longitude, name, address);
   }
 
 }
