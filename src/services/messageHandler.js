@@ -40,7 +40,7 @@ class MessageHandler {
   }
 
   isGretting(message) {
-    const greetings = ['hola', 'hello', 'saludos', 'hi', "buenos días", "buenas tardes", "hola, quiero más información", "test" ];
+    const greetings = ['hola', 'hello', 'saludos', 'hi', "buenos días", "buenas tardes", "hola, quiero más información", "test", "menu" ];
     return greetings.includes(message);
   }
 
@@ -66,7 +66,7 @@ class MessageHandler {
         type: 'reply', reply:{ id: 'option_2', title: 'Consultar' }
       },
       {
-        type: 'reply', reply:{ id: 'option_3', title: 'Ubicacion' }
+        type: 'reply', reply:{ id: 'option_3', title: 'Chatea con un agente' } // mandar el contactgo para chatear
       }
     ];
 
@@ -85,15 +85,16 @@ class MessageHandler {
         response = "Realiza tu consulta";
         break;
       case 'option_3':
-        response = "Te esperamos en nuestra sucursal";
-        await this.sendLocation(to);
+        response = "Te esperamos en nuestra sucursal"; //mandar la lógica para mandar número
+        //await this.sendLocation(to);
+        await this.sendContact(to);
         break;
       case 'option_6':
         response = "te invitamos a llamar a nuestra línea de atención";
         await this.sendContact(to);
         break;
       default:
-        response = "Opción no válida, intenta nuevamente.";
+        response = "Opción no válida, intenta nuevamente. Escribe menu para mostrar las opciones";
         break;
     }
     await whatsappService.sendMessage(to, response);
@@ -150,9 +151,9 @@ class MessageHandler {
     return `Gracias por agendar tu cita.
     Resumen de tu cita:
     Nombre: ${appointment.name}
-    Nombre de la mascota: ${appointment.petName}
-    Tipo de mascota: ${appointment.petType}
-    Motivo: ${appointment.reason}
+    Nombre de la empresa: ${appointment.petName}
+    Email: ${appointment.petType}
+    Servicio: ${appointment.reason}
     
     Nos pondremos en contacto contigo pronto para confirmar la fecha y hora de tu cita.`;
   }
@@ -165,17 +166,17 @@ class MessageHandler {
       case 'name':
         state.name = message;
         state.step = 'petName';
-        response = "Gracias, Ahora, ¿Cuál es el nombre de tu Mascota?"
+        response = "Gracias, Ahora, ¿Cuál es el nombre de la empresa?"
         break;
       case 'petName':
         state.petName = message;
         state.step = 'petType';
-        response = '¿Qué tipo de mascota es? (por ejemplo: perro, gato, huron, etc.)'
+        response = 'Me puedes proporcionar una dirección de correo electronico'
         break;
       case 'petType':
         state.petType = message;
         state.step = 'reason';
-        response = '¿Cuál es el motivo de la Consulta?';
+        response = '¿Cuál es el servicio que deseas consultar?';
         break;
       case 'reason':
         state.reason = message;
@@ -183,7 +184,7 @@ class MessageHandler {
         //response = 'Gracias por agendar tu cita.';
         break;
       default:
-        response = "Ha ocurrido un error, intenta nuevamente.";
+        response = "Ha ocurrido un error, intenta nuevamente. Escribe menu";
         break;
     };
     //await whatsappService.sendMessage(to, response);
@@ -234,28 +235,28 @@ class MessageHandler {
         }
       ],
       name: {
-        formatted_name: "MedPet Contacto",
-        first_name: "MedPet",
+        formatted_name: "CRS Seguridad Privada",
+        first_name: "CRS SEguridad Privada",
         last_name: "Contacto",
         middle_name: "",
         suffix: "",
         prefix: ""
       },
       org: {
-        company: "MedPet",
+        company: "CRS Seguridad Privada",
         department: "Atención al Cliente",
         title: "Representante"
       },
       phones: [
         {
-          phone: "+1234567890",
-          wa_id: "1234567890",
+          phone: "+2222851140",
+          wa_id: "2222851140",
           type: "WORK"
         }
       ],
       urls: [
         {
-          url: "https://www.medpet.com",
+          url: "https://crsseguridad.com.mx",
           type: "WORK"
         }
       ]
