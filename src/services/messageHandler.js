@@ -63,7 +63,7 @@ class MessageHandler {
         type: 'reply', reply:{ id: 'option_1', title: 'Agendar' }
       },
       {
-        type: 'reply', reply:{ id: 'option_2', title: 'Consultar' }
+        type: 'reply', reply:{ id: 'option_2', title: 'Horario' }
       },
       {
         type: 'reply', reply:{ id: 'option_3', title: 'Chatea con un agente' } // mandar el contactgo para chatear
@@ -82,12 +82,16 @@ class MessageHandler {
         break;
       case 'option_2':
         this.assistandState[to] = {step: 'question'}
-        response = "Realiza tu consulta";
+        response = "Nuestro horario de atención es de 9:00 a.m. - 6:00 p.m.";
         break;
       case 'option_3':
         response = "Te esperamos en nuestra sucursal"; //mandar la lógica para mandar número
         //await this.sendLocation(to);
         await this.sendContact(to);
+        break;
+      case 'option_4':
+        response = "Me alegra haberte ayudado, si deseas consultar más opciones, escribe menu";
+        //await this.sendContact(to);
         break;
       case 'option_6':
         response = "te invitamos a llamar a nuestra línea de atención";
@@ -155,7 +159,8 @@ class MessageHandler {
     Email: ${appointment.petType}
     Servicio: ${appointment.reason}
     
-    Nos pondremos en contacto contigo pronto para confirmar la fecha y hora de tu cita.`;
+    Nos pondremos en contacto contigo pronto para confirmar la fecha y hora de tu cita.
+    Si deseas consultar más opciones escribe menu`;
   }
 
   async handaleAppointmentFlow(to, message){
@@ -202,8 +207,8 @@ class MessageHandler {
     const menuMessage = "¿La respuesta fue de tu ayuda?"
     const buttons = [
       {type:'reply', reply:{ id: 'option_4', title: "Si, gracias"}},
-      {type:'reply', reply:{ id: 'option_5', title: "Hacer otra pregunta"}},
-      {type:'reply', reply:{ id: 'option_6', title: "Emergencia"}}
+      //{type:'reply', reply:{ id: 'option_5', title: "Hacer otra pregunta"}},
+      {type:'reply', reply:{ id: 'option_6', title: "Chatea con un agente"}}
     ];
 
     if(state.step === 'question'){
@@ -249,8 +254,8 @@ class MessageHandler {
       },
       phones: [
         {
-          phone: "+2222851140",
-          wa_id: "2222851140",
+          phone: "5212228718803",
+          wa_id: "5212228718803",
           type: "WORK"
         }
       ],
